@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*   function test() {
+                                                                                                                            console.log(age);
+                                                                                                                            var age=16;
+                                                                                                                        }
+                                                                                                                        test();*/
+
+        /*if (true) {
+            var name = 'jack';
+            console.log(name);
+        }
+        console.log(name);*/
+
+        /*if (true) {
+            let age = 12;
+            console.log(age);
+        }
+        console.log(age);*/
+
+        /*let name;
+        var name;*/
+        //
+        // var name='tom';
+        // let age = 16;
+    </script>
+    <script>
+        /*        var name='peter';
+                                                                                                                        let age=15;
+                                                                                                                        console.log(age);*/
+        /*if (typeof age==='undefined'){
+            let age
+        }
+        // age被限制在if{}块内,这个赋值形同于全局赋值
+        age=20;
+        console.log(age);*/
+    </script>
+    <script>
+        /*for (var i=0;i<5;++i) {
+                                                                                                                            console.log(i);
+                                                                                                                        }
+                                                                                                                        console.log(typeof year)*/
+        /*        let a=null;
+                console.log(typeof a);*/
+
+        /*let message = null;
+        let age;
+        if (message){
+            console.log('hello');
+        }
+        if (!message) {
+            console.log('world');
+        }
+        if (age){
+            console.log('happy');
+        }
+        if (!age) {
+            console.log('birthy');
+        }*/
+
+        // console.log(NaN==NaN);
+
+        /* console.log(isNaN('blue'));
+        console.log(isNaN(true));
+*/
+        /*console.log(Number("123hello"));
+        console.log(Number("+"));
+        console.log(parseInt("1234blue"));
+        console.log(parseInt("blue1234"));*/
+
+        /*let a=null
+        // console.log(a.toString());
+        console.log(String(a))
+
+        let A=`first line
+                second line`;
+        console.log(A)*/
+
+        /*let value = 5;
+        let exponent = 'second';
+
+        let str = `${value} to the ${exponent} power is ${value*value} `;
+        console.log(str);
+        console.log(`hello ${`world`}!`)*/
+
+        /* function capitalize(word) {
+             return `${word[0].toUpperCase()}${word.slice(1)}`;
+         }
+         console.log(`${capitalize('hello')}, ${capitalize('word')}`);
+         console.log(`hello ${'world'}!`)*/
+
+        /*let value=''
+        function append(){
+            value=`${value}abc`;
+            console.log(value);
+        }
+        append()
+        append()
+        append()*/
+
+        /*      let a=6;
+              let b=9;
+
+              function simpleTag(strings,aVal,bVal,sum) {
+                  console.log(strings);
+                  console.log(aVal);
+                  console.log(bVal);
+                  console.log(sum);
+
+                  return'over';
+              }
+              let untaggedResult=`${a}+${b}=${a+b}`;
+              let taggedResult=simpleTag`${a}+${b}=${a+b}`;
+
+              console.log(untaggedResult);
+              console.log(taggedResult);*/
+
+        /*let a = 6;
+        let b= 9;
+
+        function zipTag(strings,...expressions) {
+            return strings[0] +
+                expressions.map(
+                (e,i) => `${e} ${strings[i+1]}`
+                ).join(' ');
+        }
+        console.log(zipTag`${a}+${b}=${a+b}`);*/
+
+        /*console.log(String.raw`hello\nworld`)
+        console.log(`hello\nworld`)
+        console.log(String.raw`hello
+world`)*/
+
+        /*function printRaw(strings) {
+            console.log('A:\n');
+            for (const string of strings){
+                console.log(string);
+            }
+
+            console.log('B:\n');
+            for (const rawString of strings.raw ){
+                console.log(rawString);
+            }
+        }
+        printRaw`\u00A9${`and`}\n${'HAPPY'}+`;*/
+
+        /*let testSymbol=Symbol()
+        console.log(testSymbol)
+        let _testSymbol=Symbol('foo')
+        console.log(_testSymbol)*/
+
+        let a_symble = Symbol.for('foo');
+        let b_symble = Symbol('foo');
+        let c_symble = Symbol.for('foo');
+        console.log(a_symble);
+        console.log(b_symble);
+        console.log(a_symble === b_symble);
+        console.log(a_symble === c_symble);
+        console.log(Symbol.keyFor(a_symble));
+        console.log(Symbol.keyFor(b_symble));
+    </script>
+
+    <script>
+        
+    </script>
+
+    <body>
+    </body>
+
+</html>
