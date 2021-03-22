@@ -102,4 +102,20 @@
                 // 取得文档中的所有元素
                     let allElements = document.getElementsByTagName("*");
 
-                //getElementByName
+                //getElementByName 返回具有给定name属性的所有元素
+                    //常用于单选按钮
+                    //也返回类数组对象HTMLCollection
+
+        //文档写入
+            //write和writeln
+            //write()写入文本，writeln()会在字符串末尾加上"\n"
+    
+    // Element类型表示html元素
+        //nodeName同tagName属性 获取元素的标签名
+        //HTML中标签名都是大写的 XML中标签名和源代码大小写一致
+   
+    // 取得属性 getAttribute(),removeAttritube()
+        // getAttribute()多用于获取自定义属性
+        //DOM编程多使用对象属性
+    // 设置属性 setAttribute(属性名,属性值),
+
