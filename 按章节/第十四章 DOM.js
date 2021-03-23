@@ -114,8 +114,90 @@
         //nodeName同tagName属性 获取元素的标签名
         //HTML中标签名都是大写的 XML中标签名和源代码大小写一致
    
-    // 取得属性 getAttribute(),removeAttritube()
-        // getAttribute()多用于获取自定义属性
-        //DOM编程多使用对象属性
-    // 设置属性 setAttribute(属性名,属性值),
+        // 取得属性 getAttribute(),removeAttritube()
+            // getAttribute()多用于获取自定义属性
+            //DOM编程多使用对象属性
+        // 设置属性 setAttribute(属性名,属性值),
+            //DOM对象上添加对象属性不会自动变成元素属性
+            div.myColor = "red";
+            alert(div.getAttribute("myColor"));//null
+        
+        // 创建元素 document.creatElement()
+            let div = document.createElement("div");
+            div.className = "goodDiv";
+            div.id = 'myId';
+            //将创建的元素添加到文档树中浏览器才会渲染出来
+                document.body.appendChild(div);
+
+        //元素后代
+            //element.getElementsByTagName() 搜索范围仅限于元素内
+
+        // Text类型 节点包含的文本
+            //appendData(text),向节点末尾添加文本text
+            //deleteData(offset,count),从位置offset开始删除count个字符
+            //insertData(offset,text), 从位置offset插入text
+            //replaceData(offset,count,text)用text替换从offset到offset+count的文本
+            //spiltText(offset,count)在位置offset将文本节点拆分为两个
+            //substringData(offset,count)提取从offset到offset+count的文本
+            
+            //创建文本节点
+                //单个文本节点
+                let div = document.createElement("div");
+                div.className = "goodDiv";
+                div.id = 'myId';
+                let textNode = document.createTextNode("<strong>我是文本节点</strong>");
+                div.appendChild(textNode);
+                document.body.appendChild(div);
+
+                //多个文本节点 文本节点之间文本不会有空格
+                let element = document.createElement("h1");
+                element.id = "myH1";
+                let textNode1 = document.createTextNode("我是标题");
+                element.appendChild(textNode1);
+                let anotherChild = document.createTextNode('我也是标题');
+                element.appendChild(anotherChild);
+                document.body.appendChild(element); 
+
+            //合并文本节点
+                //normalize() 将多个文本节点合并成一个文本节点
+
+            //拆分文本节点
+                let newNode = element.firstChild.splitText(4);
+                alert(element.firstChild.nodeValue);
+                alert(newNode.nodeValue);
+
+        //Comment类型
+            //DOM中的注释为comment类型
+
+        //DocumentFragment 类型
+            //创建文档片段一次性插入所有li标签
+            let fragment = document.createDocumentFragment();
+            let ul = document.createElement("ul");
+            ul.id = "myList";
+            for (let i=1;i<4;++i){
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode(`Item ${i}`));
+                fragment.appendChild(li);
+            }
+            ul.appendChild(fragment);
+            document.body.appendChild(ul);
+    
+    //DOM编程
+        //动态脚本
+            //动态加载外部JS文件
+            function loadScript(url){
+                let script = document.createElement("script");
+                script.src = url;
+                document.body.appendChild(script);
+            }
+            loadScript("file.js");
+
+            //嵌入源代码
+            let script = document.createElement("script");
+            script.appendChild(document.createTextNode("function sayHi(){alert('hello world');}"));
+            document.body.appendChild(script);
+            sayHi();
+
+        
+
 
