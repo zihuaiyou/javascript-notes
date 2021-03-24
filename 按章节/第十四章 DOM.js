@@ -252,6 +252,23 @@
             
             document.body.appendChild(table);
 
+        // 实时集合(nodeList,HTMLCollection,NameNodeMap)
+            //每次访问都会更新集合
+            //下面代码是一个无限循环
+                let divs = document.getElementsByTagName("div");
+                for(i = 0;i<divs.length;++i){
+                    let newdiv = document.createElement("div");
+                    document.body.appendChild(newdiv);
+                }
+            //初始化一个变量保存当时查询的长度(解决无限循环问题)
+                let div = document.getElementsByTagName("div");
+                for(let i = 0,len = div.length;i<len;i++){
+                    let newdiv = document.createElement("div");
+                    document.body.appendChild(newdiv);
+                }
+
+            
+
         
 
 
