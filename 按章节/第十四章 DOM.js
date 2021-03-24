@@ -193,10 +193,64 @@
             loadScript("file.js");
 
             //嵌入源代码
-            let script = document.createElement("script");
-            script.appendChild(document.createTextNode("function sayHi(){alert('hello world');}"));
-            document.body.appendChild(script);
-            sayHi();
+                let script = document.createElement("script");
+                script.appendChild(document.createTextNode("function sayHi(){alert('hello world');}"));
+                document.body.appendChild(script);
+                sayHi();
+                //通用嵌入源代码的方法(适用于所有浏览器)
+                    function loadStringScript(code){
+                        var script = document.createElement("script");
+                        script.type = "text/javascript";
+                        try{
+                            script.appendChild(document.createTextNode(code));
+                        } catch(ex){
+                            script.text = code;//为了兼容IE浏览器
+                        }
+                        document.body.appendChild(script);
+                        sayHello();
+                    };
+                    
+                    loadStringScript("function sayHello(){alert('hello');}");
+
+        //动态样式
+            //通用动态嵌入样式的方式
+            function loadStyleString(css){
+                var style = document.createElement("style");
+                style.type ="text/css";
+                try {
+                    style.appendChild(document.createTextNode(css))
+                } catch(ex){
+                    style.styleSheet.cssText = css; //为了兼容IE浏览器
+                }
+                document.head.appendChild(style);
+            }
+            loadStyleString("body{background-color:red}");
+
+        //DOM创建表格
+            //创建表格
+            let table = document.createElement("table");
+            table.border = 1;
+            table.width = "100%";
+
+            //创建表体
+            let tbody = document.createElement("tbody");
+            table.appendChild(tbody);
+            
+            // 创建第一行
+            tbody.insertRow(0);
+            tbody.rows[0].insertCell(0);
+            tbody.rows[0].cells[0].appendChild(document.createTextNode("cell1_1"));
+            tbody.rows[0].insertCell(1);
+            tbody.rows[0].cells[1].appendChild(document.createTextNode("cell1_2"));
+
+            // 创建第二行
+            tbody.insertRow(1);
+            tbody.rows[1].insertCell(0);
+            tbody.rows[1].cells[0].appendChild(document.createTextNode("cell2_1"));
+            tbody.rows[1].insertCell(1);
+            tbody.rows[1].cells[1].appendChild(document.createTextNode("cell2_2"));
+            
+            document.body.appendChild(table);
 
         
 
