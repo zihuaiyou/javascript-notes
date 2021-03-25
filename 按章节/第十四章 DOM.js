@@ -252,22 +252,126 @@
             
             document.body.appendChild(table);
 
-        // 实时集合(nodeList,HTMLCollection,NameNodeMap)
-            //每次访问都会更新集合
-            //下面代码是一个无限循环
-                let divs = document.getElementsByTagName("div");
-                for(i = 0;i<divs.length;++i){
-                    let newdiv = document.createElement("div");
-                    document.body.appendChild(newdiv);
-                }
-            //初始化一个变量保存当时查询的长度(解决无限循环问题)
-                let div = document.getElementsByTagName("div");
-                for(let i = 0,len = div.length;i<len;i++){
-                    let newdiv = document.createElement("div");
-                    document.body.appendChild(newdiv);
-                }
+            // 实时集合(nodeList,HTMLCollection,NameNodeMap)
+                //每次访问都会更新集合
+                //下面代码是一个无限循环
+                    let divs = document.getElementsByTagName("div");
+                    for(i = 0;i<divs.length;++i){
+                        let newdiv = document.createElement("div");
+                        document.body.appendChild(newdiv);
+            }
+                //初始化一个变量保存当时查询的长度(解决无限循环问题)
+                    let div = document.getElementsByTagName("div");
+                    for(let i = 0,len = div.length;i<len;i++){
+                        let newdiv = document.createElement("div");
+                        document.body.appendChild(newdiv);
+                    }
 
+        // MutationObsever接口
+            //基本用法
+                //MutationObserver构造函数传入的回调函数是异步的
+            let observer = new MutationObserver(() => console.log('DOM was mutated'))
+
+            //observe(要观察其变化的DOM节点，MutationObserververInit对象)方法 将MutationObserver实例与DOM关联起来
+            //MutationObserververInit对象 :用于控制观察哪些方面的变化，键值对形式
+            let observer = new MutationObserver(() => console.log('<body> attributes changed!'));
+            observer.observe(document.body,{attributes:true});
+            document.body.className = 'foo';
+            console.log("changed body class");
+            //changed body class
+            //<body> attributes changed! 异步行为
+
+            //MutationRecord数组
+                //每次回调都会收到一个MutationRecord数组.反映DOM变化信息
+                let observer = new MutationObserver((mutationRecord) => console.log(mutationRecord));
+                observer.observe(document.body,{attributes:true});
+                document.body.setAttribute('foo','bar');
+                /* [
+                    {addedNodes: NodeList []
+                attributeName: "foo"
+                attributeNamespace: null
+                nextSibling: null
+                oldValue: null
+                previousSibling: null
+                removedNodes: NodeList []
+                target: body
+                type: "attributes"}
+                ]
+                */
+
+                //传给回调函数的第二个参数是观察变化的MutationObserver实例
+                    let observer = new MutationObserver((mutationRecord,mutationObserver) => 
+                    console.log(mutationRecord,mutationObserver));
+                    observer.observe(document.body,{attributes:true});
+                    document.body.className = 'foo';
+                    //[MutationRecord] MutationObserver {}
+                
+            //提前终止回调 disconnect()方法
+                //停止此后变化的事件的回调，也会抛弃已经加入任务队列要进行异步执行的回调
+                let observer = new MutationObserver(() => 
+                console.log("<body> attrtibute changed"));
+                observer.observe(document.body,{attributes:true});
+                document.body.className = "foo";
+                observer.disconnect();
+                document.body.className = "bar";
+
+                //让已经加入任务队列的回调执行，使用setTimeOut
+                let observer = new MutationObserver(() => 
+                console.log("<body> attrtibute changed"));
+                observer.observe(document.body,{attributes:true});
+                document.body.className = "foo";
+                setTimeout(() => {
+                    observer.disconnect();
+                    document.body.className = "bar";
+                },0);//<body> attrtibute changed
             
+            //复用MutationObserver 
+                //多次调用observe()方法，复用MutationObserver对象观察不同的目标节点
+                    let observer = new MutationObserver((mutationRecords) => {
+                        console.log((mutationRecords).map((x) => x.target));
+                    })
+                    // 向页面主体添加两个子节点
+                    let childA = document.createElement("div");
+                    let childB = document.createElement("span");
+                    document.body.appendChild(childA);
+                    document.body.appendChild(childB);
+                    // 观察子节点
+                    observer.observe(childA,{attributes:true});
+                    observer.observe(childB,{attributes:true});                    
+                    //修改子节点属性
+                    childA.setAttribute("foo","bar");
+                    childB.setAttribute("foo","bar");
+                    //[ div, span ]
+
+                //调用disconnect()方法会停止观察所有目标
+
+            //重新使用MutationObserver
+                //调用disconnect()后，可以重新使用MutationObserver
+                let observer = new MutationObserver(() => console.log("<body> attribute changed"));
+                observer.observe(document.body,{attributes:true});
+                //这行代码会触发变化事件
+                document.body.setAttribute("foo","bar");
+                setTimeout(() => {
+                    observer.disconnect();
+                    //这行代码不会执行
+                    document.body.setAttribute("bar","baz");
+                },0);
+                setTimeout(() => {
+                    observer.observe(document.body,{attributes:true});
+                    //这行代码会触发变化事件
+                    document.body.setAttribute("baz","qux");
+                },0);
+                    //<body> attribute changed
+                    //<body> attribute changed
+
+            //MutationObserververInit对象
+                //使用attributeFilter属性来观察某些属性
+                let observer = new MutationObserver((mutationRecord) => console.log(mutationRecord));
+                observer.observe(document.body,{attributeFilter:['foo','qux']});
+                document.body.setAttribute('foo','bar');
+                document.body.setAttribute('bar','baz');//添加被排除的属性不会被记录
+                document.body.setAttribute('qux','baz');
+                //[MutationRecord, MutationRecord]
 
         
 
