@@ -366,12 +366,64 @@
 
             //MutationObserververInit对象
                 //使用attributeFilter属性来观察某些属性
-                let observer = new MutationObserver((mutationRecord) => console.log(mutationRecord));
-                observer.observe(document.body,{attributeFilter:['foo','qux']});
-                document.body.setAttribute('foo','bar');
-                document.body.setAttribute('bar','baz');//添加被排除的属性不会被记录
-                document.body.setAttribute('qux','baz');
+                    let observer = new MutationObserver((mutationRecord) => console.log(mutationRecord));
+                    observer.observe(document.body,{attributeFilter:['foo','qux']});
+                    document.body.setAttribute('foo','bar');
+                    document.body.setAttribute('bar','baz');//添加被排除的属性不会被记录
+                    document.body.setAttribute('qux','baz');
                 //[MutationRecord, MutationRecord]
+
+                //保存属性原来的值 attributeOldvalue
+                    let observer = new MutationObserver((mutationRecord) =>
+                    console.log(mutationRecord.map((x) => x.oldValue)));
+                    observer.observe(document.body,{attributeOldValue:true});
+
+                    document.body.setAttribute("foo","bar");
+                    document.body.setAttribute("foo","qux");
+                    document.body.setAttribute("foo","baz");
+                    //[null, "bar", "qux"] 每一次变化都 保留了原来的值
+
+                //观察字符串变化 characterData
+                    let observer = new MutationObserver((mutationREcords) =>
+                    console.log(mutationREcords));
+                    document.body.firstChild.textContent = 'foo';//创建要观察的文本节点
+                    observer.observe(document.body.firstChild,{characterData:true});
+                    document.body.firstChild.textContent = "bar";//赋值为新的字符串
+                    document.body.firstChild.textContent = 'qux';
+                    //[MutationRecord, MutationRecord] 变化都被记录下来了
+
+                //保存变化前字符串数据 charaterDataOldValue
+                    let observer = new MutationObserver((mutationRecords) =>
+                    console.log(mutationRecords.map((x) =>
+                    x.oldValue)));
+                    document.body.firstChild.textContent = "foo"; 
+                    observer.observe(document.body.firstChild,{characterDataOldValue:true});
+                    document.body.firstChild.textContent = "foo"; 
+                    document.body.firstChild.textContent = "bar"; 
+                    document.body.firstChild.textContent = "baz"; 
+                    //["foo", "foo", "bar"]
+                
+                //观察子节点 childList
+                    //目标子节点的添加与删除
+                    document.body.innerHTML = "";
+                    let observer = new MutationObserver ((mutationRecords) =>
+                    console.log(mutationRecords));
+                    observer.observe(document.body,{childList:true});
+                    document.body.appendChild(document.createElement("div"));
+                    // [MutationRecord]
+                    // [MutationRecord]
+
+                    //对子节点的重新排序
+                    document.body.innerHTML = '' ;
+                    let observer = new MutationObserver((mutationRecords) =>
+                    console.log(mutationRecords));
+                    document.body.appendChild(document.createElement("div"));
+                    document.body.appendChild(document.createElement("span"));
+                    observer.observe(document.body,{childList:true});
+                    
+                    document.body.insertBefore(document.body.lastChild,document.body.firstChild);
+                    //[MutationRecord, MutationRecord] 发生两次变化,先是节点移除,后是节点添加
+                    //[MutationRecord]
 
         
 
