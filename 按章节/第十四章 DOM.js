@@ -304,7 +304,7 @@
                     console.log(mutationRecord,mutationObserver));
                     observer.observe(document.body,{attributes:true});
                     document.body.className = 'foo';
-                    //[MutationRecord] MutationObserver {}
+                    //[MutationRecord] MutationObserver {}
                 
             //提前终止回调 disconnect()方法
                 //停止此后变化的事件的回调，也会抛弃已经加入任务队列要进行异步执行的回调
@@ -424,6 +424,22 @@
                     document.body.insertBefore(document.body.lastChild,document.body.firstChild);
                     //[MutationRecord, MutationRecord] 发生两次变化,先是节点移除,后是节点添加
                     //[MutationRecord]
+
+                //观察子树 subtree
+                    //观察元素及其后代节点的变化0
+                    document.body.innerHTML = "";
+                    let observer = new MutationObserver((mutationReords) =>
+                    console.log(mutationReords));
+                    document.body.appendChild(document.createElement('div'));
+                    observer.observe(document.body,{attributes:true,subtree:true});
+                    document.body.firstChild.setAttribute('foo','bar');
+                    //[MutationRecord]
+
+            //MutationObserver的引用
+                //MutationObserver对目标对象的引用是弱引用:不会阻止目标对象的垃圾回收
+                //目标对象对MutationObserver的引用是强引用,目标对象被移除后,MutationObserver也会被垃圾回收
+
+
 
         
 
